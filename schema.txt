@@ -1,0 +1,55 @@
+CREATE TABLE `users` (
+  `email` varchar(255) NOT NULL,
+  `name` varchar(255),
+  `username` varchar(255),
+  PRIMARY KEY (`email`)
+);
+
+INSERT INTO `users` (`email`, `name`, `username`) VALUES ('demo@assurex.com', 'Kai', 'zhgkj');
+
+CREATE TABLE `accounts` (
+  `address` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `name` varchar(255),
+  `balance` float,
+  PRIMARY KEY (`address`)
+);
+
+INSERT INTO `accounts` (`address`, `email`, `name`, `balance`) VALUES ('1', 'demo@assurex.com', 'Kai', '1000');
+
+CREATE TABLE `plans` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `name` varchar(255),
+  `date` date,
+  `principal` float,
+  `base` float,
+  `interest` float,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `plans` (`id`, `email`, `name`, `date`, `principal`, `base`, `interest`) VALUES ('1', 'demo@assurex.com', 'iPhone 14', '', '1000', '', '');
+
+CREATE TABLE `invoices` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `pid` int NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `due` date,
+  `amnt_due` float,
+  `total` float,
+  `fulfilled` boolean,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `payments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `pid` int NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `date` date,
+  `origin` varchar(255),
+  `destination` varchar(255),
+  `amount` float,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `payments` (`id`, `pid`, `email`, `date`, `origin`, `destination`, `amount`) VALUES ('1', '1', 'demo@assurex.com', null, '', '', '100');

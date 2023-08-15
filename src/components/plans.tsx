@@ -1,10 +1,11 @@
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text } from "@tremor/react";
+import { Table, TableBody, TableHead, TableHeaderCell, TableRow } from "@tremor/react";
 import { useEffect, useState } from "react";
 import { user } from '../config/user';
 import { Plan } from "../types";
 import axios from "axios";
+import PlanRow from "./planRow";
 
-export default function Plans() {
+export default function Plans({ setPlan }: { setPlan: any }) {
   const [plans, setPlans] = useState<Plan[]>([])
 
   useEffect(() => {
@@ -14,8 +15,9 @@ export default function Plans() {
       })
       .catch(error => {
         console.error("Error fetching plans:", error);
+        setPlans([])
       });
-  }, []);
+  }, [plans]);
   
   return (
     <Table>
@@ -24,19 +26,14 @@ export default function Plans() {
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell>Start Date</TableHeaderCell>
           <TableHeaderCell>Principal</TableHeaderCell>
+          <TableHeaderCell>Next Payment Date</TableHeaderCell>
+          <TableHeaderCell>Next Payment Amount</TableHeaderCell>
+          <TableHeaderCell></TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {plans.map((plan) => (
-          <TableRow key={plan.id}>
-            <TableCell>{plan.name}</TableCell>
-            <TableCell>
-              <Text>{}</Text>
-            </TableCell>
-            <TableCell>
-              <Text>{plan.principal}</Text>
-            </TableCell>
-          </TableRow>
+          <PlanRow key={plan.id} plan={plan} setPlan={setPlan} />
         ))}
       </TableBody>
     </Table>

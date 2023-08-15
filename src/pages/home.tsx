@@ -7,15 +7,15 @@ import { user } from '../config/user';
 export default function Home() {
   const [accounts, setAccounts] = useState<Account[]>([])
 
-  {/*useEffect(() => {
-    axios.get(``)
+  useEffect(() => {
+    axios.get(`https://assurex.vercel.app/api/account/${user.email}`)
       .then(response => {
         setAccounts(response.data);
       })
       .catch(error => {
-        console.error("Error fetching plans:", error);
+        console.error("Error fetching accounts:", error);
       });
-  }, []);*/}
+  }, []);
   
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
@@ -31,7 +31,7 @@ export default function Home() {
           </TableHead>
           <TableBody>
             {accounts.map((account) => (
-              <TableRow key={account.email}>
+              <TableRow key={account.address}>
                 <TableCell>{account.name}</TableCell>
                 <TableCell>
                   <Text>{account.address}</Text>

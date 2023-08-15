@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Payment } from "../types";
 import { user } from '../config/user';
 import axios from "axios";
+import moment from "moment";
+import { centsToXRP } from "../utils/money";
 
 export default function Payments() {
   const [payments, setPayments] = useState<Payment[]>([])
@@ -13,9 +15,10 @@ export default function Payments() {
         setPayments(response.data);
       })
       .catch(error => {
-        console.error("Error fetching plans:", error);
+        console.error("Error fetching payments:", error);
+        setPayments([])
       });
-  }, []);
+  }, [payments]);
   
   return (
     <>
@@ -33,10 +36,10 @@ export default function Payments() {
               <TableRow key={payment.id}>
                 <TableCell>{payment.pid}</TableCell>
                 <TableCell>
-                  <Text>{}</Text>
+                  <Text>{moment(payment.date).format('YYYY-MM-DD')}</Text>
                 </TableCell>
                 <TableCell>
-                  <Text>{payment.amount}</Text>
+                  <Text>{centsToXRP(payment.amount)} XRP</Text>
                 </TableCell>
               </TableRow>
             ))}

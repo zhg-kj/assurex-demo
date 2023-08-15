@@ -19,6 +19,7 @@ export interface Plan {
   principal: number;
   base: number;
   interest: number;
+  installments: number;
 }
 
 export interface Invoice {
@@ -28,7 +29,7 @@ export interface Invoice {
   due: Date;
   amnt_due: number;
   total: number;
-  fulfilled: boolean;
+  fulfilled: number;
 }
 
 export interface Payment {
