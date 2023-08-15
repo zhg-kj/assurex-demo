@@ -3,7 +3,7 @@ const xrpl = require("xrpl");
 const source = xrpl.Wallet.fromSeed("shUrA8WBncLS5BEnzDydVYJH5LTQJ")
 const destination = xrpl.Wallet.fromSeed("sEd7qASxZPBSjMnQ5kuDEX2SACfTeqZ")
 
-export default async function sendXRP(amount) {
+export async function sendXRP(amount) {
   try {
     const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233');
     await client.connect()

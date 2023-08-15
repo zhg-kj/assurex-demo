@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Account, Invoice, Plan } from '../types';
 import axios from 'axios';
 import { user } from '../config/user';
-import sendXRP from '../utils/xrp';
+import { sendXRP } from '../utils/xrp';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import moment from 'moment';
 import { centsToDollars, centsToXRP } from '../utils/money';
