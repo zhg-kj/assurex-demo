@@ -22,11 +22,29 @@ export default function PlanRow({ plan, setPlan }: { plan: Plan, setPlan: any })
     .filter(invoice => !invoice.fulfilled)
     .sort((a, b) => new Date(a.due).getTime() - new Date(b.due).getTime())[0];
 
+  const today = new Date();
+  
+  let badgeColor: any, badgeLabel;
+  
+  if (!nextInvoice) {
+    badgeColor = 'teal';
+    badgeLabel = 'Complete';
+  } else if (new Date(nextInvoice.due).getTime() - today.getTime() <= 0) {
+    badgeColor = 'rose';
+    badgeLabel = 'Overdue';
+  } else if (new Date(nextInvoice.due).getTime() - today.getTime() <= 7 * 24 * 60 * 60 * 1000) {
+    badgeColor = 'rose';
+    badgeLabel = 'Due';
+  } else {
+    badgeColor = 'orange';
+    badgeLabel = 'In Progress';
+  }
+
   return (
     <TableRow>
       <TableCell>{plan.name}</TableCell>
       <TableCell>
-        {nextInvoice ? (<Badge size="md" color='orange'>In Progress</Badge>) : (<Badge size="md" color='teal'>Complete</Badge>)}
+        <Badge size="md" color={badgeColor}>{badgeLabel}</Badge>
       </TableCell>
       <TableCell>
         <Text>{moment(plan.date).add(24, 'hour').format('YYYY-MM-DD')}</Text>
