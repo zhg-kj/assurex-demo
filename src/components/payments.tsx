@@ -4,7 +4,7 @@ import { Payment } from "../types";
 import { user } from '../config/user';
 import axios from "axios";
 import moment from "moment";
-import { centsToXRP, dropsToXRP } from "../utils/money";
+import { dropsToXrp } from "xrpl";
 
 export default function Payments() {
   const [payments, setPayments] = useState<Payment[]>([])
@@ -17,7 +17,7 @@ export default function Payments() {
       })
       .catch(error => {
         console.error("Error fetching payments:", error);
-        setError(1)
+        setError(error + 1)
       });
   }, [error]);
   
@@ -37,10 +37,10 @@ export default function Payments() {
               <TableRow key={payment.id}>
                 <TableCell>{payment.pid}</TableCell>
                 <TableCell>
-                  <Text>{moment(payment.date).format('YYYY-MM-DD')}</Text>
+                  <Text>{moment(payment.date).add(24, 'hour').format('YYYY-MM-DD')}</Text>
                 </TableCell>
                 <TableCell>
-                  <Text>{dropsToXRP(centsToXRP(payment.amount))} XRP</Text>
+                  <Text>{dropsToXrp(payment.amount)} XRP</Text>
                 </TableCell>
               </TableRow>
             ))}

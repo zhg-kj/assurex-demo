@@ -16,7 +16,7 @@ export default function Plans({ setPlan }: { setPlan: any }) {
       })
       .catch(error => {
         console.error("Error fetching plans:", error);
-        setError(1)
+        setError(error + 1)
       });
   }, [error]);
   
@@ -25,6 +25,7 @@ export default function Plans({ setPlan }: { setPlan: any }) {
       <TableHead>
         <TableRow>
           <TableHeaderCell>Name</TableHeaderCell>
+          <TableHeaderCell>Status</TableHeaderCell>
           <TableHeaderCell>Start Date</TableHeaderCell>
           <TableHeaderCell>Principal</TableHeaderCell>
           <TableHeaderCell>Next Payment Date</TableHeaderCell>

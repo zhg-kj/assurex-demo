@@ -1,4 +1,4 @@
-import { Button, TableCell, TableRow, Text } from "@tremor/react";
+import { Badge, Button, TableCell, TableRow, Text } from "@tremor/react";
 import { Invoice, Plan } from "../types";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -11,7 +11,6 @@ export default function PlanRow({ plan, setPlan }: { plan: Plan, setPlan: any })
   useEffect(() => {
     axios.get(`https://assurex.vercel.app/api/invoice/plan/${plan.id}`)
       .then(response => {
-        console.log(response)
         setInvoices(response.data);
       })
       .catch(error => {
@@ -27,13 +26,16 @@ export default function PlanRow({ plan, setPlan }: { plan: Plan, setPlan: any })
     <TableRow>
       <TableCell>{plan.name}</TableCell>
       <TableCell>
-        <Text>{moment(plan.date).format('YYYY-MM-DD')}</Text>
+        {nextInvoice ? (<Badge size="md" color='orange'>In Progress</Badge>) : (<Badge size="md" color='teal'>Complete</Badge>)}
+      </TableCell>
+      <TableCell>
+        <Text>{moment(plan.date).add(24, 'hour').format('YYYY-MM-DD')}</Text>
       </TableCell>
       <TableCell>
         <Text>${centsToDollars(plan.principal)}</Text>
       </TableCell>
       <TableCell>
-        <Text>{nextInvoice ? moment(nextInvoice.due).format('YYYY-MM-DD') : "N/A"}</Text>
+        <Text>{nextInvoice ? moment(nextInvoice.due).add(24, 'hour').format('YYYY-MM-DD') : "N/A"}</Text>
       </TableCell>
       <TableCell>
         <Text>{nextInvoice ? centsToXRP(nextInvoice.amnt_due) + " XRP" : "N/A"}</Text>

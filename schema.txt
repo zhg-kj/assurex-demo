@@ -8,11 +8,10 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`email`, `name`, `username`) VALUES ('demo@assurex.com', 'Kai', 'zhgkj');
 
 CREATE TABLE `accounts` (
-  `address` varchar(255) NOT NULL,
+  `seed` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `name` varchar(255),
-  `balance` float,
-  PRIMARY KEY (`address`)
+  PRIMARY KEY (`seed`)
 );
 
 INSERT INTO `accounts` (`address`, `email`, `name`, `balance`) VALUES ('1', 'demo@assurex.com', 'Kai', '1000');

@@ -29,6 +29,7 @@ export default function Home() {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching accounts:", error);
+        setNewAccount(newAccount + 1)
         setLoading(false);
       }
     };
@@ -66,6 +67,7 @@ export default function Home() {
 
     axios.post(`https://assurex.vercel.app/api/account/create`, requestData, config)
       .then(response => {
+        setNewAccount(1);
         setNewAccount(1);
         toast({
           title: 'Account successfully added',

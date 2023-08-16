@@ -90,7 +90,12 @@ export default function Purchase() {
       setLoading(false);
     } else {
       setError(true);
-      console.log("Missing fields");
+      toast({
+        title: 'Missing fields.',
+        status: 'error',
+        isClosable: true,
+        position: 'bottom-left',
+      })
     }
   }
 
@@ -116,9 +121,8 @@ export default function Purchase() {
           installments: selectedPlan.installments,
         };
   
-        const response = await axios.post('https://assurex.vercel.app/api/plan/create', requestData, config);
+        await axios.post('https://assurex.vercel.app/api/plan/create', requestData, config);
   
-        console.log('New plan request created:', response.data);
         toast({
           title: 'Plan successfully created. Please navigate to Pay to complete your first payment and initialize the plan.',
           status: 'success',

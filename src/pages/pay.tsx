@@ -56,6 +56,7 @@ export default function Pay() {
   const [nextInvoice, setNextInvoice] = useState<Invoice>({id: 0, pid: 0, email: "", due: new Date(), amnt_due: 1, total: 1, fulfilled: 0});
   const navigate = useNavigate()
   const toast = useToast()
+  const [error, setError] = useState<number>(0);
   
   useEffect(() => {
     if (plan) {
@@ -89,16 +90,22 @@ export default function Pay() {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching accounts:", error);
+        setError(1);
         setLoading(false);
       }
     };
   
     fetchAccountData();
-  }, []);
+  }, [error]);
 
   const handleSend = async () => {
     if (value === "" || accounts[+value].balance < +centsToXRP(nextInvoice.amnt_due)) {
-      console.log("L")
+      toast({
+        title: 'Insufficient balance in selected account',
+        status: 'error',
+        isClosable: true,
+        position: 'bottom-left',
+      })
       return
     }
 
@@ -118,11 +125,10 @@ export default function Pay() {
         rate: 0.65,
       });
   
-      const response = await axios.post('https://assurex.vercel.app/api/payment/confirm', requestData, config);
-      console.log(response)
-      console.log("Success")
+      await axios.post('https://assurex.vercel.app/api/payment/confirm', requestData, config);
       setPlan(null);
       setValue("");
+      setError(error + 1);
       toast({
         title: 'Payment successfully completed',
         status: 'success',
@@ -223,7 +229,7 @@ export default function Pay() {
                           <TableBody>
                             <TableRow>
                               <TableCell>
-                                <Text>{moment(nextInvoice.due).format('YYYY-MM-DD')}</Text>
+                                <Text>{moment(nextInvoice.due).add(24, 'hour').format('YYYY-MM-DD')}</Text>
                               </TableCell>
                               <TableCell>
                                 <Text>${centsToDollars(nextInvoice.amnt_due)}</Text>

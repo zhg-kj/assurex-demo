@@ -18,7 +18,6 @@ export interface Plan {
   principal: number;
   base: number;
   interest: number;
-  installments: number;
 }
 
 export interface Invoice {
@@ -34,6 +33,7 @@ export interface Invoice {
 export interface Payment {
   id: number;
   pid: number;
+  email: string;
   date: Date;
   origin: string;
   destination: string;
