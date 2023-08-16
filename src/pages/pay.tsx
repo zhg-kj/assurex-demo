@@ -16,31 +16,31 @@ import { useToast } from '@chakra-ui/react';
 const data = [
   {
     Month: 'Jan 1',
-    Price: 0.14
+    Price: 0.35
   },
   {
     Month: 'Feb 1',
-    Price: 0.12
+    Price: 0.4
   },
   {
     Month: 'Mar 1',
-    Price: 0.15
+    Price: 0.36
   },
   {
     Month: 'Apr 1',
-    Price: 0.24
+    Price: 0.52
   },
   {
     Month: 'May 1',
-    Price: 0.31
+    Price: 0.42
   },
   {
     Month: 'Jun 1',
-    Price: 0.23
+    Price: 0.47
   },
   {
     Month: 'Jul 1',
-    Price: 0.71
+    Price: 0.92
   },
   {
     Month: 'Aug 1',
@@ -115,6 +115,7 @@ export default function Pay() {
         email: user.email,
         hash: hash,
         pid: plan?.id,
+        rate: 0.65,
       });
   
       const response = await axios.post('https://assurex.vercel.app/api/payment/confirm', requestData, config);

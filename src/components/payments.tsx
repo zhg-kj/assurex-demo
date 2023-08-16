@@ -8,6 +8,7 @@ import { centsToXRP, dropsToXRP } from "../utils/money";
 
 export default function Payments() {
   const [payments, setPayments] = useState<Payment[]>([])
+  const [error, setError] = useState<number>(0)
 
   useEffect(() => {
     axios.get(`https://assurex.vercel.app/api/payment/email/${user.email}`)
@@ -16,9 +17,9 @@ export default function Payments() {
       })
       .catch(error => {
         console.error("Error fetching payments:", error);
-        setPayments([])
+        setError(1)
       });
-  }, [payments]);
+  }, [error]);
   
   return (
     <>

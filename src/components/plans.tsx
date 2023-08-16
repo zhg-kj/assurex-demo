@@ -7,6 +7,7 @@ import PlanRow from "./planRow";
 
 export default function Plans({ setPlan }: { setPlan: any }) {
   const [plans, setPlans] = useState<Plan[]>([])
+  const [error, setError] = useState<number>(0)
 
   useEffect(() => {
     axios.get(`https://assurex.vercel.app/api/plan/email/${user.email}`)
@@ -15,9 +16,9 @@ export default function Plans({ setPlan }: { setPlan: any }) {
       })
       .catch(error => {
         console.error("Error fetching plans:", error);
-        setPlans([])
+        setError(1)
       });
-  }, [plans]);
+  }, [error]);
   
   return (
     <Table>

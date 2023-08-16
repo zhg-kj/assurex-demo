@@ -11,6 +11,7 @@ export default function PlanRow({ plan, setPlan }: { plan: Plan, setPlan: any })
   useEffect(() => {
     axios.get(`https://assurex.vercel.app/api/invoice/plan/${plan.id}`)
       .then(response => {
+        console.log(response)
         setInvoices(response.data);
       })
       .catch(error => {
