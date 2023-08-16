@@ -1,4 +1,4 @@
-import { Title, TextInput, Text, Button, Card, Flex, Select, SelectItem, NumberInput, Callout, Badge, Table, TableRow, TableHead, TableHeaderCell, TableBody, TableCell, Divider } from '@tremor/react';
+import { Title, TextInput, Text, Button, Card, Flex, Select, SelectItem, NumberInput, Callout, Badge, Table, TableRow, TableHead, TableHeaderCell, TableBody, TableCell, Divider, Grid, Metric, BarList } from '@tremor/react';
 import { ExclamationTriangleIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
 import { useState } from 'react';
 import { user } from '../config/user';
@@ -6,6 +6,48 @@ import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
 import { centsToDollars, dollarsToCents } from '../utils/money';
 import { useToast } from '@chakra-ui/react';
+import Scatter from '../components/filler/scatter';
+
+const website = [
+  { name: '/lorem', value: 1230 },
+  { name: '/ipsum', value: 751 },
+  { name: '/lorem', value: 471 },
+  { name: '/ipsum', value: 280 },
+  { name: '/lorem', value: 78 }
+];
+
+const shop = [
+  { name: '/lorem', value: 453 },
+  { name: '/ipsum', value: 351 },
+  { name: '/lorem', value: 271 },
+  { name: '/ipsum', value: 191 }
+];
+
+const app = [
+  { name: '/lorem', value: 789 },
+  { name: '/ipsum', value: 676 },
+  { name: '/lorem', value: 564 },
+  { name: '/ipsum', value: 234 },
+  { name: '/lorem', value: 191 }
+];
+
+const data = [
+  {
+    category: 'Chart',
+    stat: '10,234',
+    data: website
+  },
+  {
+    category: 'Chart',
+    stat: '12,543',
+    data: shop
+  },
+  {
+    category: 'Chart',
+    stat: '2,543',
+    data: app
+  }
+];
 
 export default function Purchase() {
   const [name, setName] = useState<string>("");
@@ -305,6 +347,33 @@ export default function Purchase() {
                 <Title>Purchase</Title>
                 <Button color="indigo" onClick={() => setRequest(true)}>Request a New Plan</Button>
               </Flex>
+              <Scatter />
+              <Grid numItemsSm={2} numItemsLg={3} className="gap-6 mt-6">
+                {data.map((item) => (
+                  <Card key={item.category}>
+                    <Title>{item.category}</Title>
+                    <Flex
+                      justifyContent="start"
+                      alignItems="baseline"
+                      className="space-x-2"
+                    >
+                      <Metric>{item.stat}</Metric>
+                      <Text>Total views</Text>
+                    </Flex>
+                    <Flex className="mt-6">
+                      <Text>Pages</Text>
+                      <Text className="text-right">Views</Text>
+                    </Flex>
+                    <BarList
+                      data={item.data}
+                      valueFormatter={(number: number) =>
+                        Intl.NumberFormat('us').format(number).toString()
+                      }
+                      className="mt-2"
+                    />
+                  </Card>
+                ))}
+              </Grid>
             </>
           )}
         </>

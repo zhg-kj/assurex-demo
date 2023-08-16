@@ -4,7 +4,7 @@ import { Payment } from "../types";
 import { user } from '../config/user';
 import axios from "axios";
 import moment from "moment";
-import { centsToXRP } from "../utils/money";
+import { centsToXRP, dropsToXRP } from "../utils/money";
 
 export default function Payments() {
   const [payments, setPayments] = useState<Payment[]>([])
@@ -39,7 +39,7 @@ export default function Payments() {
                   <Text>{moment(payment.date).format('YYYY-MM-DD')}</Text>
                 </TableCell>
                 <TableCell>
-                  <Text>{centsToXRP(payment.amount)} XRP</Text>
+                  <Text>{dropsToXRP(centsToXRP(payment.amount))} XRP</Text>
                 </TableCell>
               </TableRow>
             ))}

@@ -14,3 +14,7 @@ export function centsToXRP(cents) {
   const xrp = dollars / xrpRate;
   return xrp.toFixed(6); 
 }
+
+export function dropsToXRP(drops) {
+  return (drops / 1000000).toFixed(6);
+}

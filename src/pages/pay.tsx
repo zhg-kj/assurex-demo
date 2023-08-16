@@ -2,10 +2,10 @@ import { AreaChart, Card, Col, Grid, Title, Text, Select, SelectItem, Button, Fl
 import Payments from '../components/payments';
 import Plans from '../components/plans';
 import { useEffect, useState } from 'react';
-import { Account, Invoice, Plan } from '../types';
+import { Invoice, Plan } from '../types';
 import axios from 'axios';
 import { user } from '../config/user';
-import { sendXRP } from '../utils/xrp';
+import { getWalletDetails, sendXRP } from '../utils/xrp';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import moment from 'moment';
 import { centsToDollars, centsToXRP } from '../utils/money';
@@ -50,7 +50,7 @@ const data = [
 
 export default function Pay() {
   const [plan, setPlan] = useState<Plan | null>(null);
-  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [accounts, setAccounts] = useState<any[]>([]);
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [nextInvoice, setNextInvoice] = useState<Invoice>({id: 0, pid: 0, email: "", due: new Date(), amnt_due: 1, total: 1, fulfilled: 0});
@@ -73,13 +73,27 @@ export default function Pay() {
   }, [plan]);
 
   useEffect(() => {
-    axios.get(`https://assurex.vercel.app/api/account/${user.email}`)
-      .then(response => {
-        setAccounts(response.data);
-      })
-      .catch(error => {
+    const fetchAccountData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`https://assurex.vercel.app/api/account/${user.email}`);
+        const enhancedAccounts = await Promise.all(response.data.map(async (account: { seed: any; }) => {
+          const walletDetails = await getWalletDetails(account.seed);
+          return {
+            account: account,
+            wallet: walletDetails?.wallet,
+            balance: walletDetails?.balance
+          };
+        }));
+        setAccounts(enhancedAccounts);
+        setLoading(false);
+      } catch (error) {
         console.error("Error fetching accounts:", error);
-      });
+        setLoading(false);
+      }
+    };
+  
+    fetchAccountData();
   }, []);
 
   const handleSend = async () => {
@@ -89,7 +103,7 @@ export default function Pay() {
     }
 
     setLoading(true)
-    const hash = await sendXRP(nextInvoice.amnt_due);
+    const hash = await sendXRP(accounts[+value].account.seed, centsToXRP(nextInvoice.amnt_due));
     try {
       const config = {
         headers: {
@@ -173,8 +187,8 @@ export default function Pay() {
                   <Text className="mt-6">Pay From</Text>
                   <Select value={value} onValueChange={setValue} className="mt-2" placeholder='Select account...'>
                     {accounts.map((account, index) => (
-                      <SelectItem value={"" + index} key={account.address}>
-                        {account.name} - {account.balance}
+                      <SelectItem value={"" + index} key={account.account.seed}>
+                        {account.account.name} - {account.balance} XRP
                       </SelectItem>
                     ))}
                   </Select>

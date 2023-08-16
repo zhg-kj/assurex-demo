@@ -5,10 +5,9 @@ export interface User {
 }
 
 export interface Account {
-  address: string;
+  seed: string;
   email: string;
   name: string;
-  balance: number;
 }
 
 export interface Plan {

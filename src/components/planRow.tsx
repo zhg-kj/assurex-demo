@@ -32,13 +32,13 @@ export default function PlanRow({ plan, setPlan }: { plan: Plan, setPlan: any })
         <Text>${centsToDollars(plan.principal)}</Text>
       </TableCell>
       <TableCell>
-        <Text>{nextInvoice ? moment(nextInvoice.due).format('YYYY-MM-DD') : ""}</Text>
+        <Text>{nextInvoice ? moment(nextInvoice.due).format('YYYY-MM-DD') : "N/A"}</Text>
       </TableCell>
       <TableCell>
-        <Text>{nextInvoice ? centsToXRP(nextInvoice.amnt_due) + " XRP" : ""}</Text>
+        <Text>{nextInvoice ? centsToXRP(nextInvoice.amnt_due) + " XRP" : "N/A"}</Text>
       </TableCell>
       <TableCell>
-        <Button color="indigo" onClick={() => setPlan(plan)}>Pay</Button>
+        <Button color="indigo" onClick={() => setPlan(plan)} disabled={!nextInvoice}>Pay</Button>
       </TableCell>
     </TableRow>
   )
