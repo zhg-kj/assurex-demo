@@ -13,7 +13,7 @@ Plans are created by request via 2 API calls. /api/plan/request gets information
 
 Payments are made directly through the XRP Ledger using the Payment Transaction**. The AssureX API should be provided with the resulting Transaction Hash from the payment through /api/payment/confirm. AssureX will then validate for a successful transaction as well as payment amount. If everything is correct, the AssureX marks the invoice that was paid as fulfilled. 
 
-* Due to the timeout limitations of serverless functions provided by Vercel, we were unable to fully explore the XRPL Escrows feature, which was our intended solution to initialize plans. 
+\* Due to the timeout limitations of serverless functions provided by Vercel, we were unable to fully explore the XRPL Escrows feature, which was our intended solution to initialize plans. 
 
 ** XRPL Checks would be a better alternative to use in place of regular payments to do a more precise payment confirmation, but for the same reasons as * we were unable to do so.
 
