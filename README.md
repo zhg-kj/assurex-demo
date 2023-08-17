@@ -1,3 +1,5 @@
+assurex-demo.vercel.app
+
 ## Inspiration
 Inspired by Buy-Now, Pay Later (BNPL) platforms like Affirm, we wanted to bring the same ecosystem into the blockchain space. With the various wallets people may have, we wanted AssureX to be an integration component available for wallet providers to add to their list of services.
 
